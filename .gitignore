@@ -34,4 +34,4 @@ go.work.sum
 .env
 *.mod
 *.sum
-
+.log
