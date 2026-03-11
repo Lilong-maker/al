@@ -1,0 +1,24 @@
+# Prometheus 配置文件
+# 告诉 Prometheus 从哪里采集数据
+
+global:
+  scrape_interval: 15s      # 每15秒采集一次
+  evaluation_interval: 15s  # 每15秒评估一次告警规则
+
+# 告警规则文件（可选）
+rule_files:
+  # - "alert_rules.yml"
+
+# 数据采集目标
+scrape_configs:
+  # Prometheus 自身监控
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Order Service 监控
+  - job_name: 'order-service'
+    static_configs:
+      - targets: ['host.docker.internal:9090']  # Windows/Mac 用 host.docker.internal
+    metrics_path: '/metrics'
+    scrape_interval: 5s

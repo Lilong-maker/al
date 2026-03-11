@@ -1,0 +1,70 @@
+2026-03-11T14:41:06.000+0800	WARN	cache/disk_cache.go:193	read Config Content failed. cause file doesn't exist, file path: ./nacos/cache\config\order@@dev@@_failover.
+2026-03-11T14:41:06.028+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=config-0-87c0de47-5bb8-4a7a-8bf1-7664c4722336)
+2026-03-11T14:41:06.028+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2026-03-11T14:41:06.028+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2026-03-11T14:41:06.028+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2026-03-11T14:41:06.028+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] config-0-87c0de47-5bb8-4a7a-8bf1-7664c4722336 try to connect to server on start up, server: {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848}
+2026-03-11T14:41:06.029+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2026-03-11T14:41:06.029+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2026-03-11T14:41:06.029+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2026-03-11T14:41:06.055+0800	INFO	util/common.go:96	Local IP:172.20.32.1
+2026-03-11T14:41:06.316+0800	INFO	rpc/rpc_client.go:337	config-0-87c0de47-5bb8-4a7a-8bf1-7664c4722336 success to connect to server {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1773211266033_116.147.252.189_62118
+2026-03-11T14:41:06.317+0800	INFO	rpc/rpc_client.go:487	config-0-87c0de47-5bb8-4a7a-8bf1-7664c4722336 notify connected event to listeners , connectionId=1773211266033_116.147.252.189_62118
+2026-03-11T14:41:06.317+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
+2026-03-11T14:41:06.386+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
+2026-03-11T14:42:16.571+0800	WARN	cache/disk_cache.go:193	read Config Content failed. cause file doesn't exist, file path: ./nacos/cache\config\order@@dev@@_failover.
+2026-03-11T14:42:16.599+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=config-0-17543961-7a7f-42f6-bc6e-f5321fb50704)
+2026-03-11T14:42:16.599+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2026-03-11T14:42:16.599+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2026-03-11T14:42:16.599+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2026-03-11T14:42:16.599+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] config-0-17543961-7a7f-42f6-bc6e-f5321fb50704 try to connect to server on start up, server: {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848}
+2026-03-11T14:42:16.599+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2026-03-11T14:42:16.599+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2026-03-11T14:42:16.599+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2026-03-11T14:42:16.621+0800	INFO	util/common.go:96	Local IP:172.20.32.1
+2026-03-11T14:42:16.907+0800	INFO	rpc/rpc_client.go:337	config-0-17543961-7a7f-42f6-bc6e-f5321fb50704 success to connect to server {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1773211336610_116.147.252.189_20905
+2026-03-11T14:42:16.907+0800	INFO	rpc/rpc_client.go:487	config-0-17543961-7a7f-42f6-bc6e-f5321fb50704 notify connected event to listeners , connectionId=1773211336610_116.147.252.189_20905
+2026-03-11T14:42:16.907+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
+2026-03-11T14:42:16.980+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
+2026-03-11T14:42:34.444+0800	WARN	cache/disk_cache.go:193	read Config Content failed. cause file doesn't exist, file path: ./nacos/cache\config\order@@dev@@_failover.
+2026-03-11T14:42:34.469+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=config-0-bfbd3ed9-8fbd-419a-99e9-7157bdfae666)
+2026-03-11T14:42:34.469+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2026-03-11T14:42:34.469+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2026-03-11T14:42:34.469+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2026-03-11T14:42:34.470+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] config-0-bfbd3ed9-8fbd-419a-99e9-7157bdfae666 try to connect to server on start up, server: {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848}
+2026-03-11T14:42:34.470+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2026-03-11T14:42:34.470+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2026-03-11T14:42:34.470+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2026-03-11T14:42:34.488+0800	INFO	util/common.go:96	Local IP:172.20.32.1
+2026-03-11T14:42:34.745+0800	INFO	rpc/rpc_client.go:337	config-0-bfbd3ed9-8fbd-419a-99e9-7157bdfae666 success to connect to server {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1773211354468_116.147.252.189_62120
+2026-03-11T14:42:34.745+0800	INFO	rpc/rpc_client.go:487	config-0-bfbd3ed9-8fbd-419a-99e9-7157bdfae666 notify connected event to listeners , connectionId=1773211354468_116.147.252.189_62120
+2026-03-11T14:42:34.745+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
+2026-03-11T14:42:34.815+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
+2026-03-11T14:58:01.865+0800	WARN	cache/disk_cache.go:193	read Config Content failed. cause file doesn't exist, file path: ./nacos/cache\config\order@@dev@@_failover.
+2026-03-11T14:58:01.890+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=config-0-e551a373-6339-4f29-a711-92411befa835)
+2026-03-11T14:58:01.890+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2026-03-11T14:58:01.890+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2026-03-11T14:58:01.890+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2026-03-11T14:58:01.890+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] config-0-e551a373-6339-4f29-a711-92411befa835 try to connect to server on start up, server: {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848}
+2026-03-11T14:58:01.890+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2026-03-11T14:58:01.890+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2026-03-11T14:58:01.890+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2026-03-11T14:58:01.910+0800	INFO	util/common.go:96	Local IP:172.20.32.1
+2026-03-11T14:58:02.177+0800	INFO	rpc/rpc_client.go:337	config-0-e551a373-6339-4f29-a711-92411befa835 success to connect to server {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1773212281843_116.147.252.189_62606
+2026-03-11T14:58:02.177+0800	INFO	rpc/rpc_client.go:487	config-0-e551a373-6339-4f29-a711-92411befa835 notify connected event to listeners , connectionId=1773212281843_116.147.252.189_62606
+2026-03-11T14:58:02.177+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
+2026-03-11T14:58:02.254+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
+2026-03-11T15:11:32.538+0800	WARN	cache/disk_cache.go:193	read Config Content failed. cause file doesn't exist, file path: ./nacos/cache\config\order@@dev@@_failover.
+2026-03-11T15:11:32.565+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=config-0-b023f1e5-470e-4b62-b2e8-361bc1b28f06)
+2026-03-11T15:11:32.565+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2026-03-11T15:11:32.565+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2026-03-11T15:11:32.565+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2026-03-11T15:11:32.565+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] config-0-b023f1e5-470e-4b62-b2e8-361bc1b28f06 try to connect to server on start up, server: {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848}
+2026-03-11T15:11:32.565+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2026-03-11T15:11:32.565+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2026-03-11T15:11:32.565+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2026-03-11T15:11:32.583+0800	INFO	util/common.go:96	Local IP:172.20.32.1
+2026-03-11T15:11:32.858+0800	INFO	rpc/rpc_client.go:337	config-0-b023f1e5-470e-4b62-b2e8-361bc1b28f06 success to connect to server {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1773213092478_116.147.252.189_63093
+2026-03-11T15:11:32.858+0800	INFO	rpc/rpc_client.go:487	config-0-b023f1e5-470e-4b62-b2e8-361bc1b28f06 notify connected event to listeners , connectionId=1773213092478_116.147.252.189_63093
+2026-03-11T15:11:32.858+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
+2026-03-11T15:11:32.926+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
