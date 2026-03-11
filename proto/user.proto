@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./";
+
+// ============ 基础响应结构 ============
+message BaseResp {
+  string msg = 1;
+  int64 code = 2;
+}
+
+// ============ Order 相关消息 ============
+message OrderInfo {
+  int64 id = 1;
+  string name = 2;
+  double price = 3;
+  int64 num = 4;
+  int64 orderSn = 5;
+  string createdAt = 6;
+  string updatedAt = 7;
+}
+
+// ============ Create (创建) ============
+message OrderCreateReq {
+  string name = 1;
+  double price = 2;
+  int64 num = 3;
+  int64 orderSn = 4;
+}
+
+message OrderCreateResp {
+  string msg = 1;
+  int64 code = 2;
+  OrderInfo data = 3;
+}
+
+// ============ Read/List (查询) ============
+message OrderGetReq {
+  int64 id = 1;
+}
+
+message OrderGetResp {
+  string msg = 1;
+  int64 code = 2;
+  OrderInfo data = 3;
+}
+
+// 三条件组合查询请求
+message OrderListReq {
+  // 分页参数
+  int64 page = 1;
+  int64 pageSize = 2;
+
+  // 条件1：名称模糊查询
+  string name = 3;
+
+  // 条件2：价格区间
+  double minPrice = 4;  // 最低价格
+  double maxPrice = 5;  // 最高价格
+
+  // 条件3：创建时间范围
+  string startTime = 6; // 开始时间 (格式: 2024-01-01 00:00:00)
+  string endTime = 7;   // 结束时间 (格式: 2024-12-31 23:59:59)
+}
+
+message OrderListResp {
+  string msg = 1;
+  int64 code = 2;
+  repeated OrderInfo data = 3;
+  int64 total = 4;
+}
+
+// ============ Update (更新) ============
+message OrderUpdateReq {
+  int64 id = 1;
+  string name = 2;
+  double price = 3;
+  int64 num = 4;
+  int64 orderSn = 5;
+}
+
+message OrderUpdateResp {
+  string msg = 1;
+  int64 code = 2;
+  OrderInfo data = 3;
+}
+
+// ============ Delete (删除) ============
+message OrderDeleteReq {
+  int64 id = 1;
+}
+
+message OrderDeleteResp {
+  string msg = 1;
+  int64 code = 2;
+}
+
+// ============ Order Service ============
+service OrderService {
+  // 创建订单
+  rpc OrderCreate(OrderCreateReq) returns (OrderCreateResp);
+  // 查询单个订单
+  rpc OrderGet(OrderGetReq) returns (OrderGetResp);
+  // 查询订单列表（三条件组合查询）
+  rpc OrderList(OrderListReq) returns (OrderListResp);
+  // 更新订单
+  rpc OrderUpdate(OrderUpdateReq) returns (OrderUpdateResp);
+  // 删除订单
+  rpc OrderDelete(OrderDeleteReq) returns (OrderDeleteResp);
+}

@@ -1,0 +1,21 @@
+Mysql:
+  Host: "115.190.43.83"
+  Port: 3306
+  User: "root"
+  Password: "4ay1nkal3u8ed77y"
+  Database: "p2308a"
+
+Redis:
+  Host: "115.190.43.83"
+  Port: 6379
+  Password: "4ay1nkal3u8ed77y"
+  Database: 0
+
+Nacos:
+  Addr: "115.190.43.83"
+  Port: 8848
+  Namespace: ""
+  DataID: "order"
+  Group: "dev"
+  Username: "nacos"
+  Password: "@pengyilong"
