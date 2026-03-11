@@ -4231,3 +4231,17 @@ runtime.goexit
 2026-03-11T19:39:04.273+0800	INFO	rpc/rpc_client.go:487	config-0-d8f27055-9358-4ddd-a027-9b66c604542c notify connected event to listeners , connectionId=1773229142845_116.147.252.189_3073
 2026-03-11T19:39:04.273+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
 2026-03-11T19:39:04.348+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
+2026-03-11T19:43:18.363+0800	WARN	cache/disk_cache.go:193	read Config Content failed. cause file doesn't exist, file path: ./nacos/cache\config\order@@dev@@_failover.
+2026-03-11T19:43:18.384+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=config-0-4c850a12-575f-4353-aaf3-75ce150169d9)
+2026-03-11T19:43:18.384+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2026-03-11T19:43:18.384+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2026-03-11T19:43:18.384+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2026-03-11T19:43:18.384+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] config-0-4c850a12-575f-4353-aaf3-75ce150169d9 try to connect to server on start up, server: {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848}
+2026-03-11T19:43:18.384+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2026-03-11T19:43:18.384+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2026-03-11T19:43:18.384+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2026-03-11T19:43:18.400+0800	INFO	util/common.go:96	Local IP:172.20.32.1
+2026-03-11T19:43:18.663+0800	INFO	rpc/rpc_client.go:337	config-0-4c850a12-575f-4353-aaf3-75ce150169d9 success to connect to server {serverIp:115.190.43.83 serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1773229397246_116.147.252.189_3082
+2026-03-11T19:43:18.663+0800	INFO	rpc/rpc_client.go:487	config-0-4c850a12-575f-4353-aaf3-75ce150169d9 notify connected event to listeners , connectionId=1773229397246_116.147.252.189_3082
+2026-03-11T19:43:18.663+0800	INFO	config_client/config_connection_event_listener.go:38	[ConfigConnectionEventListener] connect to config server for taskId: 0
+2026-03-11T19:43:18.736+0800	WARN	cache/disk_cache.go:155	read cache file Config Encrypted Data Key failed. cause file doesn't exist, file path: ./nacos/cache\config\encrypted-data-key\order@@dev@@.: file not exist
