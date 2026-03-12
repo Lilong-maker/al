@@ -1,35 +1,43 @@
 package main
 
 import (
-	__ "al/proto"
-	_ "al/srv/dasic/init"
+	pb "al/proto"
+	"al/srv/dasic/config"
+	"al/srv/dasic/inits"
 	"al/srv/dasic/interceptor"
-	"al/srv/dasic/metrics"
 	"al/srv/handler/service"
 	"flag"
 	"fmt"
 	"log"
 	"net"
-	"net/http"
 	"os"
 
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 )
 
 // 命令行参数
 var (
-	port     = flag.Int("port", 50051, "The server port")
-	promPort = flag.Int("prom-port", 9090, "Prometheus metrics port")
-	env      = flag.String("env", "", "Environment: dev, beta, prod")
-	dataID   = flag.String("dataid", "order", "Nacos Data ID")
+	port   = flag.Int("port", 50051, "The server port")
+	env    = flag.String("env", "", "Environment: dev, beta, prod")
+	dataID = flag.String("dataid", "order", "Nacos Data ID")
 )
 
 func main() {
+	if err := inits.ConsulInit(); err != nil {
+		log.Fatalf("Consul初始化失败: %v", err)
+	}
+	log.Println("Consul初始化成功")
+	services, err := inits.GetServiceWithLoadBalancer(config.Gen.ConSul.ServiceName)
+	if err != nil {
+		log.Printf("获取用户服务失败: %v", err)
+	} else {
+		log.Printf("获取到用户服务: %s, 地址: %s:%d", services.Service, services.Address, services.Port)
+	}
+
 	// 解析命令行参数
 	flag.Parse()
 
-	// 设置环境变量（在 init 执行前设置）
+	// 设置环境变量（在 inits 执行前设置）
 	if *env != "" {
 		os.Setenv("APP_ENV", *env)
 	}
@@ -47,13 +55,6 @@ func main() {
 	log.Printf("配置 DataID: %s", os.Getenv("APP_DATA_ID"))
 	log.Printf("========================================")
 
-	// 初始化 Prometheus
-	metrics.InitPrometheus()
-	log.Printf("[Prometheus] 指标采集器初始化成功")
-
-	// 启动 Prometheus HTTP 服务（用于指标暴露）
-	go startPrometheusServer(*promPort)
-
 	// 启动 gRPC 服务
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
@@ -63,44 +64,20 @@ func main() {
 	// 创建 gRPC 服务器（带拦截器）
 	s := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
-			interceptor.RecoveryInterceptor(),   // 异常恢复
-			interceptor.PrometheusInterceptor(), // Prometheus 监控
+			interceptor.RecoveryInterceptor(), // 异常恢复
 		),
 	)
 
-	__.RegisterOrderServiceServer(s, &service.Server{})
+	pb.RegisterOrderServiceServer(s, &service.Server{})
 	log.Printf("server listening at %v", lis.Addr())
-	log.Printf("Prometheus metrics available at http://localhost:%d/metrics", *promPort)
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
-}
 
-// startPrometheusServer 启动 Prometheus HTTP 服务
-func startPrometheusServer(port int) {
-	mux := http.NewServeMux()
-	mux.Handle("/metrics", promhttp.Handler()) // Prometheus 指标端点
-	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
-	})
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(`
-<html>
-<head><title>Order Service Metrics</title></head>
-<body>
-<h1>Order Service Metrics</h1>
-<p><a href="/metrics">Prometheus Metrics</a></p>
-<p><a href="/health">Health Check</a></p>
-</body>
-</html>
-`))
-	})
-
-	addr := fmt.Sprintf(":%d", port)
-	log.Printf("[Prometheus] HTTP server starting at %s", addr)
-	if err := http.ListenAndServe(addr, mux); err != nil {
-		log.Printf("[Prometheus] HTTP server error: %v", err)
+	err = inits.ConsulShutdown()
+	if err != nil {
+		return
 	}
+	fmt.Println("服务已退出")
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"al/srv/dasic/config"
-	_ "al/srv/dasic/init"
+	_ "al/srv/dasic/inits"
 	"context"
 	"fmt"
 	"time"

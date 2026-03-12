@@ -1,7 +1,7 @@
 package service
 
 import (
-	__ "al/proto"
+	pb "al/proto"
 	"al/srv/dasic/config"
 	"context"
 	"fmt"
@@ -149,7 +149,7 @@ func (d *HotConfigDemo) SimulateUserRequest(userID int64) {
 
 // ServerWithHotConfig 展示如何在 gRPC 服务中使用热配置
 type ServerWithHotConfig struct {
-	__   *__.UnimplementedOrderServiceServer
+	__   *pb.UnimplementedOrderServiceServer
 	demo *HotConfigDemo
 }
 

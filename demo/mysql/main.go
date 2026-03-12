@@ -2,13 +2,15 @@ package main
 
 import (
 	"al/srv/dasic/config"
-	_ "al/srv/dasic/init"
+	_ "al/srv/dasic/inits"
 	"al/srv/handler/model"
 	"fmt"
+	"gospacex"
 	"time"
 )
 
 func main() {
+
 	fmt.Println("╔══════════════════════════════════════════════════════════════╗")
 	fmt.Println("║     MySQL 三条件组合查询 - 三种方法演示                      ║")
 	fmt.Println("╚══════════════════════════════════════════════════════════════╝")

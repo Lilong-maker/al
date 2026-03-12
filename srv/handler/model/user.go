@@ -80,7 +80,7 @@ SQL:
 
 // ========== 自动迁移说明 ==========
 /*
-在 init.go 中的 AutoMigrate 会自动创建表和索引：
+在 inits.go 中的 AutoMigrate 会自动创建表和索引：
 
 config.DB.AutoMigrate(&model.Order{})
 

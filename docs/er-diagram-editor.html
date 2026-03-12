@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单系统 ER 图 - 在线编辑器</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background: #fff;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .main-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .editor-panel {
+            width: 40%;
+            background: white;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-editor {
+            flex: 1;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            border: none;
+            outline: none;
+            resize: none;
+            background: #fafafa;
+            color: #333;
+        }
+        
+        .preview-panel {
+            flex: 1;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+        
+        .mermaid {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+        }
+        
+        .legend-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            max-width: 300px;
+            font-size: 0.9em;
+        }
+        
+        .legend-panel h3 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            gap: 10px;
+        }
+        
+        .legend-symbol {
+            width: 30px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .status-bar {
+            background: #333;
+            color: white;
+            padding: 5px 20px;
+            font-size: 0.85em;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px 20px;
+            border-left: 4px solid #c62828;
+            display: none;
+        }
+        
+        .toolbar {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tool-btn {
+            padding: 5px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .tool-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .editor-panel {
+                width: 100%;
+                height: 40%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .legend-panel {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                max-width: 100%;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>
+            <span>🗄️</span>
+            <span>订单系统 ER 图编辑器</span>
+        </h1>
+        <div class="header-buttons">
+            <button class="btn btn-secondary" onclick="resetCode()">
+                <span>↺</span> 重置
+            </button>
+            <button class="btn btn-secondary" onclick="downloadImage()">
+                <span>💾</span> 导出图片
+            </button>
+            <button class="btn btn-primary" onclick="window.open('https://mermaid.live', '_blank')">
+                <span>↗️</span> 在 Mermaid Live 中打开
+            </button>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <!-- 左侧代码编辑器 -->
+        <div class="editor-panel">
+            <div class="panel-header">
+                <span>📝 源代码 (Mermaid)</span>
+                <span style="font-size: 0.85em; color: #666;">实时编辑</span>
+            </div>
+            <div class="toolbar">
+                <button class="tool-btn" onclick="insertTemplate('entity')">+ 实体</button>
+                <button class="tool-btn" onclick="insertTemplate('relation')">+ 关系</button>
+                <button class="tool-btn" onclick="formatCode()">🎨 格式化</button>
+            </div>
+            <textarea class="code-editor" id="codeEditor" spellcheck="false">erDiagram
+    %% 用户表
+    USERS {
+        bigint id PK "用户ID"
+        varchar username "用户名"
+        varchar email "邮箱"
+        varchar phone "手机号"
+        varchar password "密码"
+        tinyint status "状态:1-正常"
+        datetime created_at "创建时间"
+    }
+    
+    %% 订单表
+    ORDERS {
+        bigint id PK "订单ID"
+        bigint user_id FK "用户ID"
+        varchar order_sn "订单号"
+        decimal total_amount "总金额"
+        tinyint status "状态"
+        varchar remark "备注"
+        datetime created_at "创建时间"
+    }
+    
+    %% 订单明细表
+    ORDER_ITEMS {
+        bigint id PK "明细ID"
+        bigint order_id FK "订单ID"
+        bigint product_id FK "商品ID"
+        int quantity "数量"
+        decimal price "单价"
+        decimal subtotal "小计"
+        datetime created_at "创建时间"
+    }
+    
+    %% 商品表
+    PRODUCTS {
+        bigint id PK "商品ID"
+        varchar name "商品名称"
+        decimal price "价格"
+        int stock "库存"
+        varchar category "分类"
+        tinyint status "状态:1-上架"
+        datetime created_at "创建时间"
+    }
+    
+    %% 支付表
+    PAYMENTS {
+        bigint id PK "支付ID"
+        bigint order_id FK "订单ID"
+        varchar payment_no "支付单号"
+        decimal amount "支付金额"
+        tinyint status "状态"
+        varchar channel "支付渠道"
+        datetime paid_at "支付时间"
+    }
+    
+    %% 定义关系
+    USERS ||--o{ ORDERS : "一个用户创建多个订单"
+    ORDERS ||--|{ ORDER_ITEMS : "一个订单包含多个商品"
+    ORDERS ||--|| PAYMENTS : "一个订单对应一笔支付"
+    PRODUCTS ||--o{ ORDER_ITEMS : "一个商品被多个订单购买"</textarea>
+        </div>
+        
+        <!-- 右侧预览面板 -->
+        <div class="preview-panel">
+            <div class="panel-header">
+                <span>👁️ 预览</span>
+                <span style="font-size: 0.85em; color: #666;">自动渲染</span>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+            <div class="mermaid" id="preview">
+                <!-- Mermaid 图表将在这里渲染 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 图例说明 -->
+    <div class="legend-panel">
+        <h3>📋 图例说明</h3>
+        <div class="legend-item">
+            <span class="legend-symbol" style="color: #e74c3c;">🔑</span>
+            <span>PK - 主键 (Primary Key)</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-symbol" style="color: #3498db;">🔗</span>
+            <span>FK - 外键 (Foreign Key)</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-symbol">||</span>
+            <span>一对一 (1:1)</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-symbol">}|</span>
+            <span>一对多 (1:N)</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-symbol">o{</span>
+            <span>多对多 (N:M)</span>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <span>💡 提示：左侧编辑代码，右侧实时预览</span>
+        <span>Powered by Mermaid.js</span>
+    </div>
+    
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            er: {
+                diagramPadding: 20,
+                layoutDirection: 'TB',
+                minEntityWidth: 150,
+                minEntityHeight: 60,
+                entityPadding: 15,
+                stroke: '#333',
+                fill: '#fff',
+                fontSize: 14
+            }
+        });
+        
+        const codeEditor = document.getElementById('codeEditor');
+        const preview = document.getElementById('preview');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        // 渲染函数
+        async function renderDiagram() {
+            const code = codeEditor.value;
+            
+            try {
+                // 清空预览区域
+                preview.innerHTML = '';
+                
+                // 生成唯一 ID
+                const id = 'mermaid-' + Date.now();
+                
+                // 渲染图表
+                const { svg } = await mermaid.render(id, code);
+                
+                // 插入到预览区域
+                preview.innerHTML = svg;
+                
+                // 隐藏错误信息
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Render error:', error);
+                errorMessage.textContent = '❌ 语法错误: ' + error.message;
+                errorMessage.style.display = 'block';
+            }
+        }
+        
+        // 监听输入事件
+        let timeout;
+        codeEditor.addEventListener('input', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(renderDiagram, 500);
+        });
+        
+        // 初始渲染
+        renderDiagram();
+        
+        // 重置代码
+        function resetCode() {
+            if (confirm('确定要重置为默认代码吗？')) {
+                codeEditor.value = codeEditor.defaultValue;
+                renderDiagram();
+            }
+        }
+        
+        // 下载图片
+        function downloadImage() {
+            const svg = preview.querySelector('svg');
+            if (!svg) {
+                alert('请等待图表渲染完成');
+                return;
+            }
+            
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                
+                const a = document.createElement('a');
+                a.download = 'er-diagram.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+            };
+            
+            img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+        }
+        
+        // 插入模板
+        function insertTemplate(type) {
+            const cursorPos = codeEditor.selectionStart;
+            const textBefore = codeEditor.value.substring(0, cursorPos);
+            const textAfter = codeEditor.value.substring(cursorPos);
+            
+            let template = '';
+            if (type === 'entity') {
+                template = '\n    NEW_ENTITY {\n        bigint id PK "ID"\n        varchar name "名称"\n        datetime created_at "创建时间"\n    }\n';
+            } else if (type === 'relation') {
+                template = '\n    ENTITY1 ||--o{ ENTITY2 : "关系描述"\n';
+            }
+            
+            codeEditor.value = textBefore + template + textAfter;
+            renderDiagram();
+        }
+        
+        // 格式化代码
+        function formatCode() {
+            let code = codeEditor.value;
+            // 简单的格式化
+            code = code.replace(/\n\s*\n/g, '\n');
+            code = code.replace(/\s+$/gm, '');
+            codeEditor.value = code;
+            renderDiagram();
+        }
+        
+        // 键盘快捷键
+        codeEditor.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = codeEditor.selectionStart;
+                const end = codeEditor.selectionEnd;
+                codeEditor.value = codeEditor.value.substring(0, start) + '    ' + codeEditor.value.substring(end);
+                codeEditor.selectionStart = codeEditor.selectionEnd = start + 4;
+            }
+        });
+    </script>
+</body>
+</html>
