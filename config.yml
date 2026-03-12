@@ -19,3 +19,10 @@ Nacos:
   Group: "dev"
   Username: "nacos"
   Password: "@pengyilong"
+
+Consul:
+  Host: "115.190.43.83"
+  Port: 8500
+  ServiceName: "order-service"
+  ServicePort: 50051
+  TTL: 10

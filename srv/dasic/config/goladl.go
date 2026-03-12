@@ -2,6 +2,7 @@ package config
 
 // AppConfig 全局配置结构
 type AppConfig struct {
+	ConSul
 	Mysql        MysqlConfig  `mapstructure:"Mysql"`
 	Redis        RedisConfig  `mapstructure:"Redis"`
 	Nacos        NacosConfig  `mapstructure:"Nacos"`
@@ -62,6 +63,14 @@ type OrderService struct {
 	MaxRetry       int     `mapstructure:"MaxRetry"`
 	MaxOrderAmount float64 `mapstructure:"MaxOrderAmount"`
 	EnableAsync    bool    `mapstructure:"EnableAsync"`
+}
+
+type ConSul struct {
+	Host        string
+	Port        int
+	ServiceName string
+	ServicePort int
+	TTL         int
 }
 
 // ConfigObserver 配置变更观察者接口

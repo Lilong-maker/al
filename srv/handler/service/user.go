@@ -1,7 +1,7 @@
 package service
 
 import (
-	__ "al/proto"
+	pb "al/proto"
 	"al/srv/dasic/config"
 	"al/srv/handler/model"
 	"context"
@@ -11,7 +11,7 @@ import (
 
 // Server 实现 OrderServiceServer
 type Server struct {
-	__.UnimplementedOrderServiceServer
+	pb.UnimplementedOrderServiceServer
 }
 
 // 响应码常量
@@ -21,10 +21,10 @@ const (
 )
 
 // ============ Create (创建) ============
-func (s *Server) OrderCreate(ctx context.Context, in *__.OrderCreateReq) (*__.OrderCreateResp, error) {
+func (s *Server) OrderCreate(ctx context.Context, in *pb.OrderCreateReq) (*pb.OrderCreateResp, error) {
 	// 检查必填字段
 	if in.Name == "" {
-		return &__.OrderCreateResp{
+		return &pb.OrderCreateResp{
 			Msg:  "订单名称不能为空",
 			Code: CodeError,
 		}, nil
@@ -40,13 +40,13 @@ func (s *Server) OrderCreate(ctx context.Context, in *__.OrderCreateReq) (*__.Or
 
 	// 保存到数据库
 	if err := config.DB.Create(order).Error; err != nil {
-		return &__.OrderCreateResp{
+		return &pb.OrderCreateResp{
 			Msg:  fmt.Sprintf("创建订单失败: %v", err),
 			Code: CodeError,
 		}, nil
 	}
 
-	return &__.OrderCreateResp{
+	return &pb.OrderCreateResp{
 		Msg:  "订单创建成功",
 		Code: CodeSuccess,
 		Data: modelToOrderInfo(order),
@@ -54,10 +54,10 @@ func (s *Server) OrderCreate(ctx context.Context, in *__.OrderCreateReq) (*__.Or
 }
 
 // ============ Read (查询) ============
-func (s *Server) OrderGet(ctx context.Context, in *__.OrderGetReq) (*__.OrderGetResp, error) {
+func (s *Server) OrderGet(ctx context.Context, in *pb.OrderGetReq) (*pb.OrderGetResp, error) {
 	// 检查 ID
 	if in.Id <= 0 {
-		return &__.OrderGetResp{
+		return &pb.OrderGetResp{
 			Msg:  "订单 ID 无效",
 			Code: CodeError,
 		}, nil
@@ -66,13 +66,13 @@ func (s *Server) OrderGet(ctx context.Context, in *__.OrderGetReq) (*__.OrderGet
 	// 查询订单
 	var order model.Order
 	if err := config.DB.First(&order, in.Id).Error; err != nil {
-		return &__.OrderGetResp{
+		return &pb.OrderGetResp{
 			Msg:  fmt.Sprintf("订单不存在: %v", err),
 			Code: CodeError,
 		}, nil
 	}
 
-	return &__.OrderGetResp{
+	return &pb.OrderGetResp{
 		Msg:  "查询成功",
 		Code: CodeSuccess,
 		Data: modelToOrderInfo(&order),
@@ -84,7 +84,7 @@ func (s *Server) OrderGet(ctx context.Context, in *__.OrderGetReq) (*__.OrderGet
 // 1. 名称模糊查询
 // 2. 价格区间查询
 // 3. 创建时间范围查询
-func (s *Server) OrderList(ctx context.Context, in *__.OrderListReq) (*__.OrderListResp, error) {
+func (s *Server) OrderList(ctx context.Context, in *pb.OrderListReq) (*pb.OrderListResp, error) {
 	// 设置默认分页参数
 	page := in.Page
 	if page <= 0 {
@@ -135,7 +135,7 @@ func (s *Server) OrderList(ctx context.Context, in *__.OrderListReq) (*__.OrderL
 	// ========== 查询总数 ==========
 	var total int64
 	if err := db.Count(&total).Error; err != nil {
-		return &__.OrderListResp{
+		return &pb.OrderListResp{
 			Msg:  fmt.Sprintf("查询总数失败: %v", err),
 			Code: CodeError,
 		}, nil
@@ -150,19 +150,19 @@ func (s *Server) OrderList(ctx context.Context, in *__.OrderListReq) (*__.OrderL
 		Offset(int(offset)).
 		Limit(int(pageSize)).
 		Find(&orders).Error; err != nil {
-		return &__.OrderListResp{
+		return &pb.OrderListResp{
 			Msg:  fmt.Sprintf("查询订单列表失败: %v", err),
 			Code: CodeError,
 		}, nil
 	}
 
 	// 转换为响应数据
-	orderInfos := make([]*__.OrderInfo, 0, len(orders))
+	orderInfos := make([]*pb.OrderInfo, 0, len(orders))
 	for _, order := range orders {
 		orderInfos = append(orderInfos, modelToOrderInfo(&order))
 	}
 
-	return &__.OrderListResp{
+	return &pb.OrderListResp{
 		Msg:   "查询成功",
 		Code:  CodeSuccess,
 		Data:  orderInfos,
@@ -171,10 +171,10 @@ func (s *Server) OrderList(ctx context.Context, in *__.OrderListReq) (*__.OrderL
 }
 
 // ============ Update (更新) ============
-func (s *Server) OrderUpdate(ctx context.Context, in *__.OrderUpdateReq) (*__.OrderUpdateResp, error) {
+func (s *Server) OrderUpdate(ctx context.Context, in *pb.OrderUpdateReq) (*pb.OrderUpdateResp, error) {
 	// 检查 ID
 	if in.Id <= 0 {
-		return &__.OrderUpdateResp{
+		return &pb.OrderUpdateResp{
 			Msg:  "订单 ID 无效",
 			Code: CodeError,
 		}, nil
@@ -183,7 +183,7 @@ func (s *Server) OrderUpdate(ctx context.Context, in *__.OrderUpdateReq) (*__.Or
 	// 查询订单是否存在
 	var order model.Order
 	if err := config.DB.First(&order, in.Id).Error; err != nil {
-		return &__.OrderUpdateResp{
+		return &pb.OrderUpdateResp{
 			Msg:  fmt.Sprintf("订单不存在: %v", err),
 			Code: CodeError,
 		}, nil
@@ -206,7 +206,7 @@ func (s *Server) OrderUpdate(ctx context.Context, in *__.OrderUpdateReq) (*__.Or
 
 	// 执行更新
 	if err := config.DB.Model(&order).Updates(updates).Error; err != nil {
-		return &__.OrderUpdateResp{
+		return &pb.OrderUpdateResp{
 			Msg:  fmt.Sprintf("更新订单失败: %v", err),
 			Code: CodeError,
 		}, nil
@@ -215,7 +215,7 @@ func (s *Server) OrderUpdate(ctx context.Context, in *__.OrderUpdateReq) (*__.Or
 	// 重新查询获取最新数据
 	config.DB.First(&order, in.Id)
 
-	return &__.OrderUpdateResp{
+	return &pb.OrderUpdateResp{
 		Msg:  "订单更新成功",
 		Code: CodeSuccess,
 		Data: modelToOrderInfo(&order),
@@ -223,10 +223,10 @@ func (s *Server) OrderUpdate(ctx context.Context, in *__.OrderUpdateReq) (*__.Or
 }
 
 // ============ Delete (删除) ============
-func (s *Server) OrderDelete(ctx context.Context, in *__.OrderDeleteReq) (*__.OrderDeleteResp, error) {
+func (s *Server) OrderDelete(ctx context.Context, in *pb.OrderDeleteReq) (*pb.OrderDeleteResp, error) {
 	// 检查 ID
 	if in.Id <= 0 {
-		return &__.OrderDeleteResp{
+		return &pb.OrderDeleteResp{
 			Msg:  "订单 ID 无效",
 			Code: CodeError,
 		}, nil
@@ -235,7 +235,7 @@ func (s *Server) OrderDelete(ctx context.Context, in *__.OrderDeleteReq) (*__.Or
 	// 查询订单是否存在
 	var order model.Order
 	if err := config.DB.First(&order, in.Id).Error; err != nil {
-		return &__.OrderDeleteResp{
+		return &pb.OrderDeleteResp{
 			Msg:  fmt.Sprintf("订单不存在: %v", err),
 			Code: CodeError,
 		}, nil
@@ -243,13 +243,13 @@ func (s *Server) OrderDelete(ctx context.Context, in *__.OrderDeleteReq) (*__.Or
 
 	// 删除订单（软删除）
 	if err := config.DB.Delete(&order).Error; err != nil {
-		return &__.OrderDeleteResp{
+		return &pb.OrderDeleteResp{
 			Msg:  fmt.Sprintf("删除订单失败: %v", err),
 			Code: CodeError,
 		}, nil
 	}
 
-	return &__.OrderDeleteResp{
+	return &pb.OrderDeleteResp{
 		Msg:  "订单删除成功",
 		Code: CodeSuccess,
 	}, nil
@@ -257,8 +257,8 @@ func (s *Server) OrderDelete(ctx context.Context, in *__.OrderDeleteReq) (*__.Or
 
 // ============ 辅助函数 ============
 // modelToOrderInfo 将 model.Order 转换为 proto.OrderInfo
-func modelToOrderInfo(order *model.Order) *__.OrderInfo {
-	return &__.OrderInfo{
+func modelToOrderInfo(order *model.Order) *pb.OrderInfo {
+	return &pb.OrderInfo{
 		Id:        int64(order.ID),
 		Name:      order.Name,
 		Price:     order.Price,
